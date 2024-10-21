@@ -10,6 +10,31 @@ class Calculation:
         result = sum(num_list)
         self.store_result("add", num_list, result)
         print(f"Result: {result}")
+
+    def sub(self):
+        num_list = self.get_input_numbers()
+        result = num_list[0] - sum(num_list[1:])
+        self.store_result("sub", num_list, result)
+        print(f"Result: {result}")
+    
+    def mul(self):      
+        num_list = self.get_input_numbers()
+        result = 1
+        for num in num_list:
+            result *= num
+        self.store_result("mul", num_list, result)
+        print(f"Result: {result}")
+
+    def div(self):
+        num_list = self.get_input_numbers()
+        result = num_list[0]
+        for num in num_list[1:]:
+            if num == 0:
+                print("Division by zero is not allowed.")
+                return
+            result /= num
+        self.store_result("div", num_list, result)
+        print(f"Result: {result}")
         
 
     def get_input_numbers(self):
