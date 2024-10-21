@@ -22,6 +22,7 @@ class Calculation:
         return num_list
     
     def store_result(self, operation, operands, result):
+
         operation_data = {
             "operation": operation,
             "operands": operands,
