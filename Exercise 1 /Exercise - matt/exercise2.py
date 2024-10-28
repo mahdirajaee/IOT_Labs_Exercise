@@ -12,6 +12,10 @@ class student:
     def show(self):
         return f" name is :  {self.name}, and the surname is : {self.surname} and the age is : {self.get_age()} "
     
+
+    def save(self):
+        f = open("student.txt", "w") 
+        f.write(f" name is :  {self.name}, and the surname is : {self.surname} and the age is : {self.get_age()} ")
         
     
 if __name__ == "__main__":
@@ -20,4 +24,4 @@ if __name__ == "__main__":
     birthYear = int(input("Enter the birthyear : "))
     student1 = student(name, surname, birthYear) 
     print(student1.show()) 
-    
+    student1.save()
