@@ -102,6 +102,8 @@ if __name__=='__main__':
     studentA.isBachelor()
     studentA.isMaster()
     voteFileName=input('Enter the name of the file that contains the votes: ')
+    print("-----<<<<<<",voteFileName)
+
     studentA.read_votes(voteFileName)
     studentA.statistics_votes()
     #print(studentA.asDictionary())
