@@ -1,24 +1,39 @@
-import cherrypy 
+import cherrypy
+import json
 
-class HelloWorld(object):
-    exposed = True 
+class ReverseService(object):
+    exposed = True
 
-    def GET(self, *uri, **params):
-        if len(uri) > 0:
-            # Take the first part of the URI and reverse it
-            output = uri[0][::-1]
-        else:
-            output = "Hello World!"  # Default message if no URI segment is provided
-        return output
-    
-if __name__ == '__main__': 
+    def PUT(self):
+        # Get the JSON data from the request body
+        content_length = cherrypy.request.headers.get('Content-Length', 0)
+        raw_body = cherrypy.request.body.read(int(content_length))
+        
+        try:
+            # Parse JSON data
+            data = json.loads(raw_body)
+            
+            # Reverse each value in the JSON data
+            reversed_data = {key: value[::-1] for key, value in data.items()}
+            
+            # Return the reversed JSON as a response
+            cherrypy.response.headers['Content-Type'] = 'application/json'
+            return json.dumps(reversed_data)
+        
+        except json.JSONDecodeError:
+            # Handle case where the request body is not valid JSON
+            cherrypy.response.status = 400
+            return json.dumps({"error": "Invalid JSON data"})
+
+if __name__ == '__main__':
     conf = { 
         '/': { 
-            'request.dispatch': cherrypy.dispatch.MethodDispatcher(), 
-            'tools.sessions.on': True 
-        } 
+            'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
+            'tools.sessions.on': True,
+            'tools.response_headers.on': True,
+            'tools.response_headers.headers': [('Content-Type', 'application/json')],
+        }
     }
-    webService = HelloWorld()
-    cherrypy.tree.mount(webService, '/', conf) 
+    cherrypy.tree.mount(ReverseService(), '/', conf)
     cherrypy.engine.start()
     cherrypy.engine.block()
