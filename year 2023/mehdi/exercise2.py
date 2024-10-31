@@ -24,7 +24,9 @@ class ReverseService(object):
             # Handle case where the request body is not valid JSON
             cherrypy.response.status = 400
             return json.dumps({"error": "Invalid JSON data"})
-
+        
+         
+    
 if __name__ == '__main__':
     conf = { 
         '/': { 
