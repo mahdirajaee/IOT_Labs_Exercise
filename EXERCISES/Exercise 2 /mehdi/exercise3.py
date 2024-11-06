@@ -1,36 +1,49 @@
-import json
-import cherrypy
 import requests
 
-def reverse_string(s):
-    return s[::-1]
+BASE_URL = 'https://catalog-p4iot.onrender.com'
 
-class StringReverser:
-    exposed = True
+def fetch_data(endpoint):
+    url = f"{BASE_URL}{endpoint}"
+    try:
+        response = requests.get(url)
+        response.raise_for_status() 
+        return response.json()       
+    except requests.exceptions.RequestException as e:
+        print(f"Error: {e}")
+        return None
+    except ValueError:
+        print("Received non-JSON response")
+        return response.text
 
-    r = requests.get('https://catalog-p4iot.onrender.com/')
-    r.text()
-    r.json()
+def main():
+    print("Available commands:")
+    print("all:     Return all the JSON")
+    print("devices: Return all the devices")
+    print("houses:  Return all the houses")
+    print("users:   Return all the users")
+    print("quit:    Exit")
 
-    def PUT(self, *uri, **params):
-        try:
-           
-            body = cherrypy.request.body.read().decode('utf-8')
-            data = json.loads(body)
-            reversed_data = {key: reverse_string(value) for key, value in data.items()}
-            cherrypy.response.headers['Content-Type'] = 'application/json'
-            return json.dumps(reversed_data).encode('utf-8')  
+    while True:
+        command = input("\nEnter a command: ").strip().lower()
 
-        except Exception as e:
-            raise cherrypy.HTTPError(500, str(e))
+        if command == "all":
+            data = fetch_data('/all')
+        elif command == "devices":
+            data = fetch_data('/devices')
+        elif command == "houses":
+            data = fetch_data('/houses')
+        elif command == "users":
+            data = fetch_data('/users')
+        elif command == "quit":
+            print("Exiting the program.")
+            break
+        else:
+            print("Invalid command. Please try again.")
+            continue
 
-if __name__ == '__main__':
-    conf = {
-        '/': {
-            'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
-            'tools.sessions.on': True
-        }
-    }
-    cherrypy.tree.mount(StringReverser(), '/', conf)
-    cherrypy.engine.start()
-    cherrypy.engine.block()
+        if data:
+            print("\nResponse:")
+            print(data)
+
+if __name__ == "__main__":
+    main()
