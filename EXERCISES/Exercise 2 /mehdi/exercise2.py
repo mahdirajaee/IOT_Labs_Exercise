@@ -1,5 +1,6 @@
 import json
 import cherrypy
+import requests
 
 def reverse_string(s):
     return s[::-1]
@@ -12,11 +13,7 @@ class StringReverser:
            
             body = cherrypy.request.body.read().decode('utf-8')
             data = json.loads(body)
-
-            
             reversed_data = {key: reverse_string(value) for key, value in data.items()}
-
-           
             cherrypy.response.headers['Content-Type'] = 'application/json'
             return json.dumps(reversed_data).encode('utf-8')  
 
