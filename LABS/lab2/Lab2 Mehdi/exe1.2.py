@@ -8,7 +8,7 @@ class webCalculator:
     def GET(self, *uri, **params):
         output = ''
         if len(uri) >= 0 : 
-            
+            pass
 
 
 
