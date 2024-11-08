@@ -5,9 +5,7 @@ class webCalculator:
     exposed = True
 
     def GET(self, *uri, **params):
-        output =''
-        if len(uri) < 3:
-
+        pass
 
     def add(self, operand1, operand2):
         if len(uri) < 3:
@@ -45,7 +43,6 @@ if __name__ == '__main__':
             'tools.sessions.on': True
         }
     }
-    cherrypy.tree.mount(StringReverser(), '/reverse', conf)
-    cherrypy.tree.mount(Calculator(), '/calc', conf)
+    cherrypy.tree.mount(webCalculator(), '/calc', conf)
     cherrypy.engine.start()
     cherrypy.engine.block()

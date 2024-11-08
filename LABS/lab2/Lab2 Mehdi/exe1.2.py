@@ -3,10 +3,13 @@ import json
 
 class webCalculator: 
     exposed = True 
-    operands = []
-    operation = None
+   
+
     def GET(self, *uri, **params):
-        pass
+        output = ''
+        if len(uri) >= 0 : 
+            
+
 
 
     def add(self, operation, operands):
