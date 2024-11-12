@@ -1,7 +1,7 @@
 from MyMQTT import * 
 import time
 
-class SimpleSubscriber:
+class SimplePublisher:
     def __init__(self, clientID, port, broker, topic_publish):
         self.client = MyMQTT(clientID, "test.mosquitto.org", 1883, self)
         self.broker = broker 
@@ -19,7 +19,7 @@ class SimpleSubscriber:
 
     def stopSim(self):
         # self.simpleSubscriberClient.unsubscribe()
-        self.simpleSubscriberClient.stop()
+        self.simplePublisherClient.stop()
 
     def publish(self, message_to_publish):
         self.simplePublisherClient.myPublish(self.topic_publish, message_to_publish)
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     port = 1883
     clientID = 'matt12345'
     topic = 'IoT/exerciseSimpleTest'
-    client_simplePub = SimpleSubscriber(clientID, port, broker, topic)
+    client_simplePub = SimplePublisher(clientID, port, broker, topic)
     client_simplePub.startSim()
 
     # can be usefull to send messages
