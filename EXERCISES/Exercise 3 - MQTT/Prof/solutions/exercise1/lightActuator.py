@@ -6,11 +6,14 @@ class LightActuator:
         self.lightStatus = "OFF"
         self.lightClientSub = MyMQTT(clientID,broker,port,self)
         self.topic_subscribe = topic_subscribe
-
+    
+    # this is the part where he asks for the exam to be consdiered  when you want to recerive the message when want to perform somehthing 
     def notify(self,topic,payload):
         message_json = json.loads(payload)
         self.lightStatus = message_json["status"]
         if self.lightStatus == 1:
+            #send status because the light is the same as the status
+            # if ... 
             print (f'The Light was turned ON at {time.ctime(message_json["timestamp"])}')
         else:
             print (f'The Light was turned OFF at {time.ctime(message_json["timestamp"])}')
